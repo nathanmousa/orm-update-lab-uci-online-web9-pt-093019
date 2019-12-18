@@ -40,15 +40,13 @@ class Student
   def self.create(name, grade)
     student = Student.new(name, grade)
     student.save
-    student
   end
   
   def self.new_from_db(row)
-  student = self.new  # self.new is the same as running Song.new
+  student = self.new
   student.id = row[0]
   student.name =  row[1]
   student.grade = row[2]
-  student  # return the newly created instance
 end
 
 
