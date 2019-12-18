@@ -1,8 +1,8 @@
 require_relative "../config/environment.rb"
 
 class Student
-
-  def initialize()
+  attr_accessor :name, :grade
+  def initialize(id=nil, name, grade)
 
 
 end
