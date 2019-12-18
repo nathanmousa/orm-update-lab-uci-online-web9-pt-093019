@@ -24,17 +24,20 @@ class Student
   def self.drop_table
     sql =  <<-SQL 
       DROP TABLE students
-        SQL
+      SQL
     DB[:conn].execute(sql) 
   end
   
   def save
-    sql = <<-SQL
-      INSERT INTO students (name, grade) 
-      VALUES (?, ?)
-    SQL
-    DB[:conn].execute(sql, self.name, self.grade)
-    @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
+    if self.id
+      update
+    else
+      sql = <<-SQL
+        INSERT INTO students (name, grade) 
+        VALUES (?, ?)
+        SQL
+      DB[:conn].execute(sql, self.name, self.grade)
+      @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
   end
   
   def self.create(name, grade)
@@ -52,7 +55,7 @@ class Student
       FROM students
       WHERE name = ?
       LIMIT 1
-    SQL
+      SQL
     DB[:conn].execute(sql, name).map do |row|
       self.new_from_db(row)
     end.first
